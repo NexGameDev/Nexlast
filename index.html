@@ -1,0 +1,139 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Block Blast Remake</title>
+<style>
+  body{
+    margin:0; font-family:Arial,Helvetica,sans-serif;
+    background:#0f172a; color:white;
+    display:flex; justify-content:center; align-items:center; height:100vh;
+  }
+  .game{
+    display:flex; gap:20px;
+  }
+  .board{
+    display:grid;
+    grid-template-columns: repeat(10, 32px);
+    grid-template-rows: repeat(10, 32px);
+    gap:2px;
+    background:#020617;
+    padding:6px; border-radius:8px;
+  }
+  .cell{
+    width:32px; height:32px;
+    background:#1e293b;
+    border-radius:4px;
+  }
+  .cell.filled{ background:#38bdf8; }.side{ display:flex; flex-direction:column; gap:16px; } .pieces{ display:flex; gap:10px; } .piece{ display:grid; gap:2px; padding:6px; background:#020617; border-radius:8px; cursor:pointer; } .p-cell{ width:24px; height:24px; background:#38bdf8; border-radius:4px; } .score{ font-size:18px; } </style>
+
+</head>
+<body>
+<div class="game">
+  <div id="board" class="board"></div>
+  <div class="side">
+    <div class="score">Score: <span id="score">0</span></div>
+    <div id="pieces" class="pieces"></div>
+  </div>
+</div><script>
+const boardSize = 10;
+const board = Array.from({length: boardSize}, () => Array(boardSize).fill(0));
+const boardEl = document.getElementById('board');
+const piecesEl = document.getElementById('pieces');
+const scoreEl = document.getElementById('score');
+let score = 0;
+let selectedPiece = null;
+
+const SHAPES = [
+  [[1]],
+  [[1,1]],
+  [[1],[1]],
+  [[1,1],[1,1]],
+  [[1,1,1]],
+  [[1],[1],[1]],
+  [[1,0],[1,1]],
+  [[0,1],[1,1]]
+];
+
+function drawBoard(){
+  boardEl.innerHTML='';
+  for(let r=0;r<boardSize;r++){
+    for(let c=0;c<boardSize;c++){
+      const d=document.createElement('div');
+      d.className='cell'+(board[r][c]?' filled':'');
+      d.onclick=()=>placePiece(r,c);
+      boardEl.appendChild(d);
+    }
+  }
+}
+
+function randomPiece(){
+  return SHAPES[Math.floor(Math.random()*SHAPES.length)];
+}
+
+function drawPieces(){
+  piecesEl.innerHTML='';
+  for(let i=0;i<3;i++){
+    const shape=randomPiece();
+    const p=document.createElement('div');
+    p.className='piece';
+    p.style.gridTemplateColumns=`repeat(${shape[0].length},24px)`;
+    shape.forEach(row=>row.forEach(v=>{
+      const c=document.createElement('div');
+      c.className='p-cell';
+      if(!v) c.style.visibility='hidden';
+      p.appendChild(c);
+    }));
+    p.onclick=()=>{ selectedPiece=shape; };
+    piecesEl.appendChild(p);
+  }
+}
+
+function canPlace(shape, r, c){
+  for(let i=0;i<shape.length;i++){
+    for(let j=0;j<shape[0].length;j++){
+      if(shape[i][j]){
+        if(r+i>=boardSize||c+j>=boardSize||board[r+i][c+j]) return false;
+      }
+    }
+  }
+  return true;
+}
+
+function placePiece(r,c){
+  if(!selectedPiece) return;
+  if(!canPlace(selectedPiece,r,c)) return;
+  for(let i=0;i<selectedPiece.length;i++){
+    for(let j=0;j<selectedPiece[0].length;j++){
+      if(selectedPiece[i][j]) board[r+i][c+j]=1;
+    }
+  }
+  score+=10;
+  scoreEl.textContent=score;
+  selectedPiece=null;
+  clearLines();
+  drawBoard();
+}
+
+function clearLines(){
+  for(let r=0;r<boardSize;r++){
+    if(board[r].every(v=>v)){
+      board[r].fill(0);
+      score+=50;
+    }
+  }
+  for(let c=0;c<boardSize;c++){
+    let full=true;
+    for(let r=0;r<boardSize;r++) if(!board[r][c]) full=false;
+    if(full){
+      for(let r=0;r<boardSize;r++) board[r][c]=0;
+      score+=50;
+    }
+  }
+  scoreEl.textContent=score;
+}
+
+drawBoard();
+drawPieces();
+</script></body>
+</html>
