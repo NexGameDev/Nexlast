@@ -1,145 +1,40 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Block Blast Remake (Mobile Fit)</title>
-<style>
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:radial-gradient(circle at top,#0b1220,#020617);
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-  }.game{ width:100%; max-width:420px; /* HP friendly */ padding:12px; }
-
-.top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
-
-.score{ font-size:18px; font-weight:bold; }
-
-.board{ width:100%; aspect-ratio:1/1; /* kotak sempurna */ display:grid; grid-template-columns: repeat(10, 1fr); gap:4px; background:#020617; padding:6px; border-radius:12px; }
-
-.cell{ background:#1e293b; border-radius:6px; position:relative; }
-
-.cell.filled{ background:linear-gradient(145deg,#38bdf8,#0ea5e9); }
-
-.pieces{ display:flex; justify-content:space-between; margin-top:16px; }
-
-.piece{ background:#020617; padding:6px; border-radius:10px; display:grid; gap:3px; touch-action:none; }
-
-.p-cell{ width:20px; height:20px; background:linear-gradient(145deg,#38bdf8,#0ea5e9); border-radius:5px; }
-
-@media (max-width:360px){ .p-cell{width:18px;height:18px} } </style>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Block Blast Nex</title>
+  <link rel="stylesheet" href="css/main.css"/>
+  <link rel="stylesheet" href="css/board.css"/>
+  <link rel="stylesheet" href="css/blocks.css"/>
+  <link rel="stylesheet" href="css/shop.css"/>
+  <link rel="stylesheet" href="css/animations.css"/>
 </head>
 <body>
-<div class="game">
-  <div class="top">
-    <div class="score">Score: <span id="score">0</span></div>
-  </div>  <div id="board" class="board"></div>
-  <div id="pieces" class="pieces"></div>
-</div><script>
-const boardSize = 10;
-const board = Array.from({length: boardSize}, () => Array(boardSize).fill(0));
-const boardEl = document.getElementById('board');
-const piecesEl = document.getElementById('pieces');
-const scoreEl = document.getElementById('score');
-let score = 0;
-let selectedPiece = null;
 
-const SHAPES = [
-  [[1]],
-  [[1,1]],
-  [[1],[1]],
-  [[1,1],[1,1]],
-  [[1,1,1]],
-  [[1],[1],[1]],
-  [[1,0],[1,1]],
-  [[0,1],[1,1]]
-];
+<div id="top-bar">
+  <div id="score">Score: 0</div>
+  <div id="nex">NEX: 0</div>
+  <div id="shop">
+    <button id="buy-booster">2× Booster (5 NEX)</button>
+    <span id="booster-timer"></span>
+  </div>
+</div>
 
-function drawBoard(){
-  boardEl.innerHTML='';
-  for(let r=0;r<boardSize;r++){
-    for(let c=0;c<boardSize;c++){
-      const d=document.createElement('div');
-      d.className='cell'+(board[r][c]?' filled':'');
-      d.onclick=()=>placePiece(r,c);
-      boardEl.appendChild(d);
-    }
-  }
-}
+<div id="game">
+  <div id="board"></div>
+  <div id="blocks"></div>
+</div>
 
-function randomPiece(){
-  return SHAPES[Math.floor(Math.random()*SHAPES.length)];
-}
-
-function drawPieces(){
-  piecesEl.innerHTML='';
-  for(let i=0;i<3;i++){
-    const shape=randomPiece();
-    const p=document.createElement('div');
-    p.className='piece';
-    p.style.gridTemplateColumns=`repeat(${shape[0].length},1fr)`;
-    shape.forEach(row=>row.forEach(v=>{
-      const c=document.createElement('div');
-      c.className='p-cell';
-      if(!v) c.style.visibility='hidden';
-      p.appendChild(c);
-    }));
-    p.onclick=()=>{ selectedPiece=shape; };
-    piecesEl.appendChild(p);
-  }
-}
-
-function canPlace(shape, r, c){
-  for(let i=0;i<shape.length;i++){
-    for(let j=0;j<shape[0].length;j++){
-      if(shape[i][j]){
-        if(r+i>=boardSize||c+j>=boardSize||board[r+i][c+j]) return false;
-      }
-    }
-  }
-  return true;
-}
-
-function placePiece(r,c){
-  if(!selectedPiece) return;
-  if(!canPlace(selectedPiece,r,c)) return;
-  for(let i=0;i<selectedPiece.length;i++){
-    for(let j=0;j<selectedPiece[0].length;j++){
-      if(selectedPiece[i][j]) board[r+i][c+j]=1;
-    }
-  }
-  score+=10;
-  scoreEl.textContent=score;
-  selectedPiece=null;
-  clearLines();
-  drawBoard();
-}
-
-function clearLines(){
-  for(let r=0;r<boardSize;r++){
-    if(board[r].every(v=>v)){
-      board[r].fill(0);
-      score+=50;
-    }
-  }
-  for(let c=0;c<boardSize;c++){
-    let full=true;
-    for(let r=0;r<boardSize;r++) if(!board[r][c]) full=false;
-    if(full){
-      for(let r=0;r<boardSize;r++) board[r][c]=0;
-      score+=50;
-    }
-  }
-  scoreEl.textContent=score;
-}
-
-drawBoard();
-drawPieces();
-</script></body>
+<script src="js/utils.js"></script>
+<script src="js/board.js"></script>
+<script src="js/blocks.js"></script>
+<script src="js/placement.js"></script>
+<script src="js/score.js"></script>
+<script src="js/nex.js"></script>
+<script src="js/timer.js"></script>
+<script src="js/booster.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/game.js"></script>
+</body>
 </html>
