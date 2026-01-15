@@ -1,0 +1,18 @@
+#board {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 6px;
+  margin: 20px 0;
+}
+
+.cell {
+  width: 32px;
+  height: 32px;
+  background: #1e2a3d;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.cell.filled {
+  background: linear-gradient(135deg,#4dd2ff,#1b7cff);
+}
