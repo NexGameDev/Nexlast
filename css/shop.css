@@ -1,0 +1,12 @@
+#shop button {
+  background: #4dd2ff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#booster-timer {
+  margin-left: 10px;
+  color: #ffd54d;
+}
