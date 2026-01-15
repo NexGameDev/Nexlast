@@ -1,0 +1,17 @@
+#blocks {
+  display: flex;
+  gap: 20px;
+}
+
+.block {
+  display: grid;
+  gap: 4px;
+  cursor: grab;
+}
+
+.block-cell {
+  width: 28px;
+  height: 28px;
+  background: #4dd2ff;
+  border-radius: 6px;
+}
