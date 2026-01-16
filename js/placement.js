@@ -1,58 +1,32 @@
-import { canPlace, placeBlock, renderBoard, clearLines } from "./board.js";
-import { addScore } from "./score.js";
+// =====================================
+// FILE: placement.js
+// PART 3.4 — BLOCK PLACEMENT + SHADOW
+// =====================================
 
-let dragging = null;
-
-export function enableDrag(blocks, onPlaced) {
-  blocks.forEach(block => {
-    block.el.addEventListener("pointerdown", e => {
-      dragging = block;
-      block.el.classList.add("dragging");
-    });
-  });
-
-  document.addEventListener("pointermove", e => {
-    if (!dragging) return;
-
-    const boardEl = document.getElementById("board");
-    const rect = boardEl.getBoundingClientRect();
-    const x = Math.floor((e.clientX - rect.left) / 32);
-    const y = Math.floor((e.clientY - rect.top) / 32);
-
-    highlight(dragging.shape, x, y);
-  });
-
-  document.addEventListener("pointerup", e => {
-    if (!dragging) return;
-
-    const boardEl = document.getElementById("board");
-    const rect = boardEl.getBoundingClientRect();
-    const x = Math.floor((e.clientX - rect.left) / 32);
-    const y = Math.floor((e.clientY - rect.top) / 32);
-
-    if (canPlace(dragging.shape, x, y)) {
-      placeBlock(dragging.shape, x, y, dragging.color);
-      renderBoard();
-      const lines = clearLines();
-      if (lines) addScore(lines * 100);
-      onPlaced(dragging);
+function canPlace(shape, startX, startY) {
+  for (let y = 0; y < shape.length; y++) {
+    for (let x = 0; x < shape[y].length; x++) {
+      if (shape[y][x]) {
+        const bx = startX + x;
+        const by = startY + y;
+        if (bx < 0 || bx >= 8 || by < 0 || by >= 8) return false;
+        if (board[by][bx]) return false;
+      }
     }
-
-    clearHighlight();
-    dragging.el.classList.remove("dragging");
-    dragging = null;
-  });
+  }
+  return true;
 }
 
-function highlight(shape, x, y) {
-  clearHighlight();
-  shape.forEach(([dx, dy]) => {
-    const index = (y + dy) * 8 + (x + dx);
-    const cell = document.querySelector(`.cell[data-index="${index}"]`);
-    if (cell) cell.classList.add("ghost");
-  });
-}
+function placeBlock(shape, startX, startY) {
+  if (!canPlace(shape, startX, startY)) return false;
 
-function clearHighlight() {
-  document.querySelectorAll(".ghost").forEach(c => c.classList.remove("ghost"));
+  for (let y = 0; y < shape.length; y++) {
+    for (let x = 0; x < shape[y].length; x++) {
+      if (shape[y][x]) board[startY + y][startX + x] = 1;
+    }
+  }
+
+  checkClear();
+  generateNewBlocks();
+  return true;
 }
