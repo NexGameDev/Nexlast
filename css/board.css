@@ -1,28 +1,20 @@
-#board{
-  display:grid;
-  grid-template-columns:repeat(8,44px);
-  grid-template-rows:repeat(8,44px);
-  gap:4px;
-  padding:12px;
-  background:#fff;
-  border-radius:16px;
+#board {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 4px;
+  background: #ffffff33;
+  padding: 6px;
+  border-radius: 16px;
 }
 
-.cell{
-  width:44px;
-  height:44px;
-  background:#f0f0f0;
-  border-radius:8px;
+.cell {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #ffffff55;
+  border-radius: 8px;
+  transition: background 0.2s;
 }
 
-.cell.filled{
-  animation:pop .2s ease;
-}
-
-.cell.valid{
-  background:#caffbf;
-}
-
-.cell.invalid{
-  background:#ffadad;
+.cell.filled {
+  background: #ffcc00;
 }
