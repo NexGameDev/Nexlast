@@ -1,39 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Block Blast Remake</title>
 
 <link rel="stylesheet" href="css/main.css">
 <link rel="stylesheet" href="css/board.css">
 <link rel="stylesheet" href="css/blocks.css">
+<link rel="stylesheet" href="css/ui.css">
+<link rel="stylesheet" href="css/shop.css">
 <link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/responsive.css">
 </head>
 
 <body>
 
 <div id="top-bar">
-  <div id="score">Score: 0</div>
+  <div class="score-box">
+    <span>SCORE</span>
+    <strong id="score">0</strong>
+  </div>
+
+  <div class="coin-box">
+    <span>NEX</span>
+    <strong id="coin">0</strong>
+  </div>
+
+  <button id="shop-btn">SHOP</button>
 </div>
 
 <div id="game">
   <div id="board"></div>
 
   <div id="tray">
-    <div class="tray-slot"></div>
-    <div class="tray-slot"></div>
-    <div class="tray-slot"></div>
+    <div class="slot"></div>
+    <div class="slot"></div>
+    <div class="slot"></div>
   </div>
 </div>
 
-<script src="js/utils.js"></script>
-<script src="js/shapes.js"></script>
-<script src="js/randomizer.js"></script>
-<script src="js/board.js"></script>
-<script src="js/clear.js"></script>
-<script src="js/ghost.js"></script>
-<script src="js/drag.js"></script>
+<div id="shop">
+  <h2>SHOP</h2>
+  <button id="booster-x2">
+    2× SCORE <span>5 NEX</span>
+  </button>
+  <button id="close-shop">CLOSE</button>
+</div>
+
 <script src="js/game.js"></script>
+<script src="js/board.js"></script>
+<script src="js/blocks.js"></script>
+<script src="js/drag.js"></script>
+<script src="js/generator.js"></script>
+<script src="js/collision.js"></script>
+<script src="js/clear.js"></script>
+<script src="js/score.js"></script>
+<script src="js/combo.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/boosters.js"></script>
+<script src="js/state.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/animations.js"></script>
+
 </body>
 </html>
