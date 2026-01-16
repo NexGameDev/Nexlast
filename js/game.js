@@ -1,27 +1,25 @@
-import { initBoard } from "./board.js";
-import { generateBlocks } from "./blocks.js";
-import { enableDrag } from "./placement.js";
+// =====================================
+// FILE: game.js
+// PART 3.6 — GAME CORE & STATE
+// =====================================
 
-const blocksEl = document.getElementById("blocks");
+let board = Array.from({ length: 8 }, () => Array(8).fill(0));
+let playerCoins = 100;
+let score = 0;
+let currentBlocks = [];
 
-function spawnBlocks() {
-  blocksEl.innerHTML = "";
-  const blocks = generateBlocks();
-
-  const blockObjs = blocks.map(b => {
-    const el = document.createElement("div");
-    el.className = "block";
-    el.style.background = b.color;
-    el.textContent = "";
-    blocksEl.appendChild(el);
-    return { ...b, el };
-  });
-
-  enableDrag(blockObjs, placed => {
-    placed.el.remove();
-    if (!blocksEl.children.length) spawnBlocks();
-  });
+function generateNewBlocks() {
+  currentBlocks = [
+    smartRandomBlock(),
+    smartRandomBlock(),
+    smartRandomBlock()
+  ];
 }
 
-initBoard();
-spawnBlocks();
+function addScore(val) {
+  score += val;
+}
+
+function gameOver() {
+  alert("GAME OVER");
+}
