@@ -1,8 +1,6 @@
-let score=0;
-let multiplier=1;
+let score = 0;
 
-function addScore(v){
-  score+=v*multiplier;
-  document.getElementById("score").textContent="Score: "+score;
-  checkNex();
+export function addScore(v) {
+  score += v;
+  document.getElementById("score").textContent = score;
 }
