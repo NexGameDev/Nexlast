@@ -1,0 +1,21 @@
+#top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.score-box, .coin-box {
+  background: #ffffff33;
+  padding: 6px 10px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+#shop-btn {
+  background: #ffd93d;
+  border: none;
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-weight: bold;
+}
