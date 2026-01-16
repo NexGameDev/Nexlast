@@ -1,9 +1,15 @@
-.cell.clear {
-  animation: pop 0.3s ease;
+@keyframes pop{
+  from{transform:scale(.6)}
+  to{transform:scale(1)}
 }
 
-@keyframes pop {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
+@keyframes clear{
+  to{
+    transform:scale(0);
+    opacity:0;
+  }
+}
+
+.clear{
+  animation:clear .35s forwards;
 }
