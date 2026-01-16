@@ -1,40 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Block Blast Nex</title>
-  <link rel="stylesheet" href="css/main.css"/>
-  <link rel="stylesheet" href="css/board.css"/>
-  <link rel="stylesheet" href="css/blocks.css"/>
-  <link rel="stylesheet" href="css/shop.css"/>
-  <link rel="stylesheet" href="css/animations.css"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Block Blast Remake</title>
+
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/board.css">
+<link rel="stylesheet" href="css/blocks.css">
+<link rel="stylesheet" href="css/animations.css">
 </head>
+
 <body>
 
 <div id="top-bar">
   <div id="score">Score: 0</div>
-  <div id="nex">NEX: 0</div>
-  <div id="shop">
-    <button id="buy-booster">2× Booster (5 NEX)</button>
-    <span id="booster-timer"></span>
-  </div>
 </div>
 
 <div id="game">
   <div id="board"></div>
-  <div id="blocks"></div>
+
+  <div id="tray">
+    <div class="tray-slot"></div>
+    <div class="tray-slot"></div>
+    <div class="tray-slot"></div>
+  </div>
 </div>
 
 <script src="js/utils.js"></script>
+<script src="js/shapes.js"></script>
+<script src="js/randomizer.js"></script>
 <script src="js/board.js"></script>
-<script src="js/blocks.js"></script>
-<script src="js/placement.js"></script>
-<script src="js/score.js"></script>
-<script src="js/nex.js"></script>
-<script src="js/timer.js"></script>
-<script src="js/booster.js"></script>
-<script src="js/shop.js"></script>
+<script src="js/clear.js"></script>
+<script src="js/ghost.js"></script>
+<script src="js/drag.js"></script>
 <script src="js/game.js"></script>
 </body>
 </html>
